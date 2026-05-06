@@ -1,0 +1,223 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section id="inicio" class="hero">
+    <div class="container hero-grid">
+        <div class="hero-copy">
+            <p class="eyebrow">Laboratorio dental digital</p>
+            <h1>Precisión clínica con una interfaz clara y directa.</h1>
+            <p class="lead">Citas, presupuestos, catálogo filtrable, recursos clínicos y contacto en línea en una sola experiencia.</p>
+            <div class="hero-actions">
+                <a href="#catalogo" class="btn primary">Explorar catálogo</a>
+                <a href="#contacto" class="btn secondary">Cotizar en línea</a>
+            </div>
+            <div class="hero-metrics">
+                <div><strong>CAD/CAM</strong><span>Flujo digital</span></div>
+                <div><strong>360°</strong><span>Detalle visual</span></div>
+                <div><strong>24h</strong><span>Seguimiento inicial</span></div>
+            </div>
+        </div>
+        <div class="hero-panel">
+            <div class="panel-card accent-card">
+                <p>Servicios</p>
+                <h3>Citas, presupuestos y contactos</h3>
+                <span>Atención rápida para clínicas y pacientes.</span>
+            </div>
+            <div class="panel-card">
+                <p>Materiales</p>
+                <h3>Zirconia, cerámica y acrílico</h3>
+                <span>Selección por estética, resistencia y costo.</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="servicios" class="section-block muted">
+    <div class="container">
+        <div class="section-heading">
+            <p>Servicios</p>
+            <h2>Funcionalidades principales</h2>
+        </div>
+        <div class="feature-grid">
+            {% for service in services %}
+            <article class="feature-card">
+                <h3>{{ service.title }}</h3>
+                <p>{{ service.text }}</p>
+            </article>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<section id="catalogo" class="section-block">
+    <div class="container">
+        <div class="section-heading">
+            <p>Catálogo</p>
+            <h2>Productos y servicios</h2>
+        </div>
+
+        <div class="filters" data-filter-root>
+            <div>
+                <label for="typeFilter">Tipo de prótesis</label>
+                <select id="typeFilter">
+                    {% for type in prosthesis_types %}
+                    <option value="{{ type }}">{{ type }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div>
+                <label for="materialFilter">Material</label>
+                <select id="materialFilter">
+                    {% for material in materials %}
+                    <option value="{{ material }}">{{ material }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+
+        <div class="catalog-grid" id="catalogGrid">
+            {% for item in catalog %}
+            <article class="catalog-card" data-type="{{ item.type }}" data-material="{{ item.material }}">
+                <div class="catalog-card-top">
+                    <span>{{ item.type }}</span>
+                    <span>{{ item.material }}</span>
+                </div>
+                <h3>{{ item.name }}</h3>
+                <p class="summary">{{ item.summary }}</p>
+                <p class="price-range">{{ item.price }}</p>
+                <button class="link-button details-toggle" type="button">Ver detalle</button>
+                <div class="details-panel">
+                    <p><strong>Técnico:</strong> {{ item.technical }}</p>
+                    <p><strong>Especificaciones:</strong></p>
+                    <ul>
+                        {% for spec in item.specs %}
+                        <li>{{ spec }}</li>
+                        {% endfor %}
+                    </ul>
+                    <p><strong>Ángulos / vistas:</strong> {{ item.angles | join(', ') }}</p>
+                </div>
+            </article>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<section id="lab" class="section-block muted">
+    <div class="container split-layout">
+        <div>
+            <div class="section-heading left">
+                <p>Sobre nosotros</p>
+                <h2>Kristal Lab</h2>
+            </div>
+            <p class="body-copy">Trabajamos como laboratorio de apoyo para clínicas que necesitan un flujo ordenado, piezas bien documentadas y comunicación simple. El objetivo es que cada caso tenga trazabilidad, claridad de costos y una presentación limpia.</p>
+            <ul class="bullet-list">
+                {% for point in about_points %}
+                <li>{{ point }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="lab-stack">
+            <div class="lab-card large">
+                <p>Detalle de producto</p>
+                <h3>Fotografías 360, ángulos y fichas técnicas</h3>
+                <span>Preparado para explicar tanto la parte clínica como la comercial.</span>
+            </div>
+            <div class="lab-card">
+                <p>Presupuestos</p>
+                <h3>Rangos de precio visibles</h3>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="galeria" class="section-block">
+    <div class="container">
+        <div class="section-heading">
+            <p>Galería de recursos clínicos</p>
+            <h2>Casos y material autorizado</h2>
+        </div>
+        <div class="gallery-grid">
+            {% for item in gallery %}
+            <article class="gallery-card">
+                <div class="gallery-visual">{{ item.title }}</div>
+                <div class="gallery-body">
+                    <span>{{ item.label }}</span>
+                    <h3>{{ item.title }}</h3>
+                    <p>{{ item.description }}</p>
+                </div>
+            </article>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<section id="faq" class="section-block muted">
+    <div class="container">
+        <div class="section-heading">
+            <p>FAQ</p>
+            <h2>Preguntas frecuentes</h2>
+        </div>
+        <div class="faq-list">
+            {% for faq in faqs %}
+            <details class="faq-item">
+                <summary>{{ faq.question }}</summary>
+                <p>{{ faq.answer }}</p>
+            </details>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<section id="contacto" class="section-block">
+    <div class="container split-layout">
+        <div>
+            <div class="section-heading left">
+                <p>Contacto</p>
+                <h2>Cita, presupuesto o consulta</h2>
+            </div>
+            <p class="body-copy">Usa el formulario para dejar una solicitud de cita, cotización o contacto directo. La respuesta llega por seguimiento interno.</p>
+            <div class="contact-cards">
+                <div class="mini-card">
+                    <span>Cita</span>
+                    <strong>Agenda una valoración</strong>
+                </div>
+                <div class="mini-card">
+                    <span>Cotización</span>
+                    <strong>Presupuesto en línea</strong>
+                </div>
+                <div class="mini-card">
+                    <span>Contacto</span>
+                    <strong>Respuesta rápida</strong>
+                </div>
+            </div>
+        </div>
+
+        <div class="forms-stack">
+            <form id="quoteForm" class="form-card">
+                <h3>Cotización en línea</h3>
+                <input type="text" name="name" placeholder="Nombre" required>
+                <input type="email" name="email" placeholder="Correo" required>
+                <select name="service" required>
+                    <option value="">Servicio de interés</option>
+                    <option>Citas</option>
+                    <option>Presupuesto</option>
+                    <option>Contacto general</option>
+                </select>
+                <textarea name="message" rows="4" placeholder="Describe el caso o servicio" required></textarea>
+                <button type="submit" class="btn primary full">Enviar cotización</button>
+                <p class="status-message" data-status-for="quoteForm"></p>
+            </form>
+
+            <form id="appointmentForm" class="form-card">
+                <h3>Solicitud de cita</h3>
+                <input type="text" name="name" placeholder="Nombre" required>
+                <input type="email" name="email" placeholder="Correo" required>
+                <input type="date" name="date" required>
+                <textarea name="message" rows="3" placeholder="Motivo de la cita" required></textarea>
+                <button type="submit" class="btn secondary full">Solicitar cita</button>
+                <p class="status-message" data-status-for="appointmentForm"></p>
+            </form>
+        </div>
+    </div>
+</section>
+{% endblock %}
